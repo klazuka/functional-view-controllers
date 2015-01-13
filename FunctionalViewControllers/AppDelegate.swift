@@ -35,7 +35,8 @@ let chooseAlbum: ViewController<[Album],Album> = tableViewController("Albums") {
     return cell
 }
 
-let navigation = map(rootViewController(chooseArtist), { $0.albums }) >>> chooseAlbum
+//let navigation = map(rootViewController(chooseArtist), { $0.albums }) >>> chooseAlbum
+let navigation = map(rootViewController(chooseArtist), { $0.albums }) ^^^ chooseAlbum
 
 
 @UIApplicationMain
@@ -43,6 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
     var window: UIWindow?
 
+    func dismissModal(sender: AnyObject) {
+      window?.rootViewController?.dismissViewControllerAnimated(true, completion:nil)
+    }
 
     func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool {
         // Override point for customization after application launch.

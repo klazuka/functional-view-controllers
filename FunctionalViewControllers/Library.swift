@@ -67,6 +67,22 @@ func >>><A,B,C>(l: NavigationController<A,B>, r: ViewController<B,C>) -> Navigat
     }
 }
 
+infix operator ^^^ { associativity right }
+
+func ^^^<A,B,C>(l: NavigationController<A,B>, r: ViewController<B,C>) -> NavigationController<A,C> {
+  return NavigationController { x, callback in
+    let nc = l.create(x, { b, nc in
+      let rvc = r.create(b, { c in
+        callback(c, nc)
+      })
+      let navrvc = UINavigationController(rootViewController: rvc)
+      rvc.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: nil, action: "dismissModal:")
+      nc.presentViewController(navrvc, animated: true, completion: nil)
+    })
+    return nc
+  }
+}
+
 func tableViewController<A>(title: String, render: (UITableViewCell, A) -> UITableViewCell) -> ViewController<[A],A> {
     
     return ViewController { (items: [A], callback: A -> ()) -> UIViewController  in
