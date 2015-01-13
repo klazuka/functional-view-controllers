@@ -47,7 +47,7 @@ func run<A,B>(nc: NavigationController<A,B>, initialValue: A, finish: B -> ()) -
 func rootViewController<A,B>(vc: ViewController<A,B>) -> NavigationController<A,B> {
     return NavigationController { initial, callback in
         let navController = UINavigationController()
-        let rootController = vc.create(initial, { callback($0, navController) } )
+        let rootController = vc.create(initial) { callback($0, navController) }
         navController.viewControllers = [rootController]
         return navController
     }
@@ -69,7 +69,7 @@ func >>><A,B,C>(l: NavigationController<A,B>, r: ViewController<B,C>) -> Navigat
 
 func tableViewController<A>(title: String, render: (UITableViewCell, A) -> UITableViewCell) -> ViewController<[A],A> {
     
-    return ViewController({ (items: [A], callback: A -> ()) -> UIViewController  in
+    return ViewController { (items: [A], callback: A -> ()) -> UIViewController  in
         var myTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MyTableViewController") as MyViewController
         myTableViewController.title = title
         myTableViewController.items = items.map { Box($0) }
@@ -85,7 +85,7 @@ func tableViewController<A>(title: String, render: (UITableViewCell, A) -> UITab
             }
         }
         return myTableViewController
-    })
+    }
 }
 
 class MyViewController: UITableViewController {
