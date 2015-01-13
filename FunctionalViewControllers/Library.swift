@@ -67,10 +67,11 @@ func >>><A,B,C>(l: NavigationController<A,B>, r: ViewController<B,C>) -> Navigat
     }
 }
 
-func tableViewController<A>(render: (UITableViewCell, A) -> UITableViewCell) -> ViewController<[A],A> {
+func tableViewController<A>(title: String, render: (UITableViewCell, A) -> UITableViewCell) -> ViewController<[A],A> {
     
     return ViewController({ (items: [A], callback: A -> ()) -> UIViewController  in
         var myTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MyTableViewController") as MyViewController
+        myTableViewController.title = title
         myTableViewController.items = items.map { Box($0) }
         myTableViewController.configureCell = { cell, obj in
             if let boxed = obj as? Box<A> {

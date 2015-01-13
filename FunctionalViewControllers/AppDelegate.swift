@@ -25,12 +25,12 @@ let artists : [Artist] = [
     Artist(name: "Simeon Ten Holt", additionalInformation: "Bla bla", albums: [])
 ]
 
-let chooseArtist: ViewController<[Artist], Artist> = tableViewController { cell, artist in
+let chooseArtist: ViewController<[Artist], Artist> = tableViewController("Artists") { cell, artist in
     cell.textLabel!.text = artist.name
     return cell
 }
 
-let chooseAlbum: ViewController<[Album],Album> = tableViewController { cell, album in
+let chooseAlbum: ViewController<[Album],Album> = tableViewController("Albums") { cell, album in
     cell.textLabel?.text = album.name
     return cell
 }
